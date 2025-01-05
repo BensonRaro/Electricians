@@ -16,6 +16,8 @@ import {
   CommandList,
 } from "@/components/ui/command";
 import UsersData from "@/data/RandomData";
+import { useState } from "react";
+import { UserDialog } from "./UserDialog";
 export function SearchCommandDialog({
   open,
   setOpen,
@@ -23,23 +25,36 @@ export function SearchCommandDialog({
   open: boolean;
   setOpen: (open: boolean) => void;
 }) {
+  const [userDetails, setUserDetails] = useState<any>({});
+  const [openUser, setOpenUser] = useState(false);
+
+  const OpenUserD = (user: any) => {
+    setUserDetails(user);
+    setOpenUser(true);
+    setOpen(false);
+  };
   return (
-    <CommandDialog open={open} onOpenChange={setOpen}>
-      <CommandInput placeholder="Type a command or search..." />
-      <CommandList>
-        <CommandEmpty>No results found.</CommandEmpty>
-        <CommandGroup heading="Electicians">
-          {UsersData.map((user) => (
-            <CommandItem key={user.id}>
-              <img src={user.image} alt="" className="size-7 rounded-md" />
-              <p className="flex gap-2">
-                <span>{user.firstName}</span>
-                <span>{user.secondName}</span>
-              </p>
-            </CommandItem>
-          ))}
-        </CommandGroup>
-      </CommandList>
-    </CommandDialog>
+    <>
+      <UserDialog open={openUser} setOpen={setOpenUser} user={userDetails} />
+      <CommandDialog open={open} onOpenChange={setOpen}>
+        <CommandInput placeholder="Type a command or search..." />
+        <CommandList>
+          <CommandEmpty>No results found.</CommandEmpty>
+          <CommandGroup heading="Electicians">
+            {UsersData.map((user) => (
+              <div key={user.id} onClick={() => OpenUserD(user)}>
+                <CommandItem>
+                  <img src={user.image} alt="" className="size-7 rounded-md" />
+                  <p className="flex gap-2">
+                    <span>{user.firstName}</span>
+                    <span>{user.secondName}</span>
+                  </p>
+                </CommandItem>
+              </div>
+            ))}
+          </CommandGroup>
+        </CommandList>
+      </CommandDialog>
+    </>
   );
 }

@@ -8,7 +8,7 @@ const CommandSearch = () => {
   const [open, setOpen] = useState(false);
 
   return (
-    <>
+    <div>
       <div className="flex justify-center items-center w-full mt-8">
         <div
           className="flex px-4 py-3 rounded-full border w-full lg:w-[50%] justify-between shadow-md cursor-pointer"
@@ -19,7 +19,7 @@ const CommandSearch = () => {
         </div>
       </div>
       <SearchCommandDialog open={open} setOpen={setOpen} />
-    </>
+    </div>
   );
 };
 
